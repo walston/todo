@@ -15,3 +15,17 @@ function home($http) {
   var vm = this;
   vm.message = "Welcome home"
 }
+
+app.controller('todoController', todo);
+
+app.$inject = ['$http'];
+
+function todo($http) {
+  var vm = this;
+  $http({
+    method: 'GET',
+    url: '/todos/Nathan'
+  }).then(function(response) {
+    vm.list = response.data
+  });
+}
