@@ -10,9 +10,16 @@
       {{ home.message }} {{home.user.name}}
     </div>
     <div ng-controller="todoController as todo">
-      <ul>
-        <li ng-repeat="item in todo.list">
-          {{ item }}
+      Items:
+      <span ng-show="todo.list.length">
+        {{todo.list.length}}
+      </span>
+      <ul class="list-unstyled">
+        <li ng-repeat="item in todo.list" ng-click="finished = !finished">
+          <input ng-checked="finished" type="checkbox">
+          <span ng-class="{'text-muted': finished}">
+            {{ item }}
+          </span>
         </li>
       </ul>
     </div>
