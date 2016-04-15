@@ -82,6 +82,29 @@ app.post('/add', jsonParser, function(req, res) {
   });
 });
 
+app.put('/remove', jsonParser, function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    if (!err) {
+      var todos = db.collection('todos');
+      var subtractive = {
+        'user': req.user,
+        'text': req.body.text
+      }
+      todos.deleteOne(subtractive, function(err, results) {
+        if (!err) {
+          res.json(results.result);
+        }
+        else {
+          res.sendStatus(500);
+        }
+      });
+    }
+    else {
+      res.sendStatus(500);
+    }
+  });
+})
+
 app.use(express.static('./public/'));
 
 var port = process.env.PORT || 8080;
