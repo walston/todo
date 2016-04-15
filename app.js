@@ -31,14 +31,30 @@ app.get('/user', function(req, res) {
   });
 });
 
-app.get('/todos/:user', function(req, res) {
-  if (req.params.user === 'Nathan') {
-    var todos = ['Learn JavaScript.', 'Go Home.'];
-    res.json(todos);
-  }
-  else {
-    res.status(404).send('Sorry, I don\'t know that user');
-  }
+app.get('/todos', function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    if (!err) {
+      var todos = db.collection('todos');
+      todos.find({user: req.user}).toArray(function(err, docs) {
+        db.close();
+        docs = docs.map(function(doc) {
+          return {
+            text: doc.text,
+            finished: doc.finished
+          }
+        })
+        if (!err) {
+          res.json(docs);
+        }
+        else {
+          res.sendStatus(500);
+        }
+      });
+    }
+    else {
+      res.sendStatus(500);
+    }
+  });
 });
 
 app.post('/add', jsonParser, function(req, res) {
