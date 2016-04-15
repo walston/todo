@@ -6,6 +6,7 @@ var url = 'mongodb://localhost/todo';
 var jsonParser = require('body-parser').json();
 
 app.use(function(req, res, next) {
+  req.user = 'Nathan';
   console.log(req.method + ':' + req.url);
   next();
 });
@@ -33,6 +34,7 @@ app.post('/add', jsonParser, function(req, res) {
     if (!err) {
       var todos = db.collection('todos');
       var additive = {
+        'user': req.user,
         'text': req.body.newTodo,
         'finished': false
       }
