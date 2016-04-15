@@ -7,7 +7,14 @@
   </head>
   <body ng-app="todo">
     <div ng-controller="homeController as home">
-      {{ home.message }}
+      {{ home.message }} {{home.user.name}}
+    </div>
+    <div ng-controller="todoController as todo">
+      <ul>
+        <li ng-repeat="item in todo.list">
+          {{ item }}
+        </li>
+      </ul>
     </div>
     <script src="script.js" charset="utf-8"></script>
   </body>
