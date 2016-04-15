@@ -22,12 +22,28 @@ app.$inject = ['$http'];
 
 function todo($http) {
   var vm = this;
-  $http({
-    method: 'GET',
-    url: '/todos'
-  }).then(function(response) {
-    vm.list = response.data
-  });
+  activate();
+
+  function activate() {
+    getTodos();
+  }
+
+  function getTodos() {
+    var todos = $http.get('/todos');
+    todos.then(function(todo) {
+      vm.list = todo.data;
+    })
+  }
+
+  vm.add = function(content) {
+    var todo = {
+      newTodo: content
+    };
+    var added = $http.post('/add', todo);
+    added.then(function() {
+      getTodos();
+    });
+  }
 
   vm.finished = function(item) {
     var position = vm.list.indexOf(item);

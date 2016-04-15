@@ -10,12 +10,16 @@
       {{ home.message }} {{home.user.name}}
     </div>
     <div ng-controller="todoController as todo">
+      <div classs="input-group">
+        <input ng-model="todo.item" type="text" placeholder="New task...">
+        <input ng-click="todo.add(todo.item)" type="button" name="Add" value="Add">
+      </div>
       <span ng-show="todo.list.length !== 0">Items: {{todo.list.length}}</span>
       <span ng-show="todo.list.length === 0">Nothing to do</span>
       <ul class="list-unstyled">
         <li ng-repeat="item in todo.list" ng-click="finished = !finished; todo.finished(item)" ng-show="!finished">
           <input ng-checked="finished" type="checkbox">
-          <span>{{ item }}</span>
+          <span>{{ item.text }}</span>
         </li>
       </ul>
     </div>
