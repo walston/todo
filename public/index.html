@@ -6,22 +6,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
   </head>
   <body ng-app="todo">
-    <div ng-controller="homeController as home">
-      {{ home.message }} {{home.user.name}}
-    </div>
-    <div ng-controller="todoController as todo">
-      <div classs="input-group">
-        <input ng-model="todo.item" type="text" placeholder="New task...">
-        <input ng-click="todo.add(todo.item)" type="button" name="Add" value="Add">
+    <div class="container">
+      <div ng-controller="homeController as home">
+        <h2>{{ home.message }}, {{home.user.name}}.</h2>
       </div>
-      <span ng-show="todo.list.length !== 0">Items: {{todo.list.length}}</span>
-      <span ng-show="todo.list.length === 0">Nothing to do</span>
-      <ul class="list-unstyled">
-        <li ng-repeat="item in todo.list" ng-click="finished = !finished; todo.finished(item)" ng-show="!finished">
-          <input ng-checked="finished" type="checkbox">
-          <span>{{ item.text }}</span>
-        </li>
-      </ul>
+      <div ng-controller="todoController as todo">
+        <div class="form-inline">
+          <input ng-model="todo.item" class="form-control" type="text" placeholder="New task...">
+          <input ng-click="todo.add(todo.item)" class="btn btn-primary" type="button" name="Add" value="Add">
+        </div>
+        <h4 ng-show="todo.list.length !== 0">Items: {{todo.list.length}}</h4>
+        <h4 ng-show="todo.list.length === 0">Nothing to do</h4>
+        <ul class="list-unstyled">
+          <li ng-repeat="item in todo.list" ng-click="finished = !finished; todo.finished(item)" ng-show="!finished">
+            <input ng-checked="finished" type="checkbox">
+            <span>{{ item.text }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
     <script src="script.js" charset="utf-8"></script>
   </body>
