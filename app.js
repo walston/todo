@@ -37,6 +37,7 @@ app.get('/todos', function(req, res) {
       var todos = db.collection('todos');
       todos.find({user: req.user}).toArray(function(err, docs) {
         db.close();
+        debugger;
         docs = docs.map(function(doc) {
           return {
             text: doc.text,
@@ -63,8 +64,7 @@ app.post('/add', jsonParser, function(req, res) {
       var todos = db.collection('todos');
       var additive = {
         'user': req.user,
-        'text': req.body.newTodo,
-        'finished': false
+        'text': req.body.newTodo
       }
       todos.insertOne(additive, function(err, result) {
         db.close();
