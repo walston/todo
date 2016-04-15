@@ -12,11 +12,23 @@ app.use(function(req, res, next) {
 });
 
 app.get('/user', function(req, res) {
-  var user = {
-    name: 'Nathan',
-    location: 'Newport Beach'
-  }
-  res.json(user);
+  MongoClient.connect(url, function(err, db) {
+    if (!err) {
+      var users = db.collection('users');
+      users.find({'name': req.user}).limit(1).toArray(function(err, docs) {
+        db.close();
+        if (!err) {
+          res.send(docs[0]);
+        }
+        else {
+          res.sendStatus(500);
+        }
+      });
+    }
+    else {
+      res.sendStatus(500);
+    }
+  });
 });
 
 app.get('/todos/:user', function(req, res) {
