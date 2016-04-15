@@ -24,7 +24,7 @@ function todo($http) {
   var vm = this;
   $http({
     method: 'GET',
-    url: '/todos/Nathan'
+    url: '/todos'
   }).then(function(response) {
     vm.list = response.data
   });
