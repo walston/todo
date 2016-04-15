@@ -15,7 +15,7 @@
         {{todo.list.length}}
       </span>
       <ul class="list-unstyled">
-        <li ng-repeat="item in todo.list" ng-click="finished = !finished">
+        <li ng-repeat="item in todo.list" ng-click="finished = !finished" ng-show="!finished">
           <input ng-checked="finished" type="checkbox">
           <span ng-class="{'text-muted': finished}">
             {{ item }}
