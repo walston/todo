@@ -18,8 +18,8 @@
         <h4 ng-show="todo.list.length !== 0">Items: {{todo.list.length}}</h4>
         <h4 ng-show="todo.list.length === 0">Nothing to do</h4>
         <ul class="list-unstyled">
-          <li ng-repeat="item in todo.list" ng-click="finished = !finished; todo.finished(item)" ng-show="!finished">
-            <input ng-checked="finished" type="checkbox">
+          <li ng-repeat="item in todo.list" ng-click="todo.remove(item)">
+            <input type="checkbox">
             <span>{{ item.text }}</span>
           </li>
         </ul>

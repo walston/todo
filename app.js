@@ -40,8 +40,7 @@ app.get('/todos', function(req, res) {
         debugger;
         docs = docs.map(function(doc) {
           return {
-            text: doc.text,
-            finished: doc.finished
+            text: doc.text
           }
         })
         if (!err) {

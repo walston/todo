@@ -44,6 +44,13 @@ function todo($http) {
     });
   }
 
+  vm.remove = function(item) {
+    var removed = $http.put('/remove', item)
+    removed.then(function() {
+      getTodos();
+    })
+  }
+
   vm.finished = function(item) {
     var position = vm.list.indexOf(item);
     vm.list.splice(position, 1);
