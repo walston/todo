@@ -7,7 +7,21 @@
   </head>
   <body ng-app="todo">
     <div ng-controller="homeController as home">
-      {{ home.message }}
+      {{ home.message }} {{home.user.name}}
+    </div>
+    <div ng-controller="todoController as todo">
+      Items:
+      <span ng-show="todo.list.length">
+        {{todo.list.length}}
+      </span>
+      <ul class="list-unstyled">
+        <li ng-repeat="item in todo.list" ng-click="finished = !finished">
+          <input ng-checked="finished" type="checkbox">
+          <span ng-class="{'text-muted': finished}">
+            {{ item }}
+          </span>
+        </li>
+      </ul>
     </div>
     <script src="script.js" charset="utf-8"></script>
   </body>
