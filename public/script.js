@@ -12,7 +12,7 @@ function home($http) {
     vm.user = response.data
   });
   var vm = this;
-  vm.message = "Welcome home"
+  vm.message = "Hi"
 }
 
 app.controller('todoController', todo);

@@ -3,12 +3,14 @@
   <head>
     <title>Angular App</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
   </head>
   <body ng-app="todo">
+    <br>
     <div class="container">
       <div ng-controller="homeController as home">
-        <h2>{{ home.message }}, {{home.user.name}}.</h2>
+        <greeting></greeting>
       </div>
       <div ng-controller="todoController as todo">
         <p class="form-inline">
@@ -32,5 +34,6 @@
       </div>
     </div>
     <script src="script.js" charset="utf-8"></script>
+    <script src="home/greeting.directive.js" charset="utf-8"></script>
   </body>
 </html>
