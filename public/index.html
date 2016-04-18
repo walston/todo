@@ -12,14 +12,14 @@
     <div class="container">
       <div ng-hide="start" class="jumbotron">
         <h1>Ready to get things done?</h1>
-        <p>Using a To-Do® list™ improves lives by 20%*.</p>
+        <p>Using a To-Do<sup>®</sup> list<sup>™</sup> improves lives by 20%<sup>*</sup>.</p>
         <p>
           <a ng-click="start = !start" class="btn btn-primary" href="#/todo">
             Start Now
           </a>
         </p>
       </div><!-- /div.jumbotron -->
-      <div ng-view></div>
+      <div ng-hide="!start" ng-view></div>
     </div>
     <script src="script.js" charset="utf-8"></script>
     <script src="home/home.controller.js" charset="utf-8"></script>
