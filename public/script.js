@@ -12,15 +12,7 @@ function home($http) {
     vm.user = response.data
   });
   var vm = this;
-  vm.message = "Welcome home"
-}
-
-app.directive('greeting', greeting);
-
-function greeting() {
-  return {
-    templateUrl: 'home/greeting.directive.html'
-  }
+  vm.message = "Hi"
 }
 
 app.controller('todoController', todo);
