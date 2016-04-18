@@ -15,6 +15,14 @@ function home($http) {
   vm.message = "Welcome home"
 }
 
+app.directive('greeting', greeting);
+
+function greeting() {
+  return {
+    templateURL: 'home/greeting.directive.html'
+  }
+}
+
 app.controller('todoController', todo);
 
 app.$inject = ['$http'];
