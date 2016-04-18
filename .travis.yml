@@ -1,5 +1,5 @@
 language: node_js
-services: mongod
+services: mongodb
 install:
   - npm install
 before_script:
