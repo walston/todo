@@ -11,18 +11,24 @@
         <h2>{{ home.message }}, {{home.user.name}}.</h2>
       </div>
       <div ng-controller="todoController as todo">
-        <div class="form-inline">
+        <p class="form-inline">
           <input ng-model="todo.item" class="form-control" type="text" placeholder="New task...">
           <input ng-click="todo.add(todo.item)" class="btn btn-primary" type="button" name="Add" value="Add">
+        </p>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span ng-show="todo.list.length !== 0" class="h4">Items: {{todo.list.length}}</span>
+            <span ng-show="todo.list.length === 0" class="h4">Nothing to do</span>
+          </div>
+          <div class="panel-body">
+            <ul class="list-unstyled">
+              <li ng-repeat="item in todo.list" ng-click="todo.remove(item)">
+                <input type="checkbox">
+                <span>{{ item.text }}</span>
+              </li>
+            </ul>
+          </div>
         </div>
-        <h4 ng-show="todo.list.length !== 0">Items: {{todo.list.length}}</h4>
-        <h4 ng-show="todo.list.length === 0">Nothing to do</h4>
-        <ul class="list-unstyled">
-          <li ng-repeat="item in todo.list" ng-click="finished = !finished; todo.finished(item)" ng-show="!finished">
-            <input ng-checked="finished" type="checkbox">
-            <span>{{ item.text }}</span>
-          </li>
-        </ul>
       </div>
     </div>
     <script src="script.js" charset="utf-8"></script>

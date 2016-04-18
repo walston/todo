@@ -37,10 +37,10 @@ app.get('/todos', function(req, res) {
       var todos = db.collection('todos');
       todos.find({user: req.user}).toArray(function(err, docs) {
         db.close();
+        debugger;
         docs = docs.map(function(doc) {
           return {
-            text: doc.text,
-            finished: doc.finished
+            text: doc.text
           }
         })
         if (!err) {
@@ -63,8 +63,7 @@ app.post('/add', jsonParser, function(req, res) {
       var todos = db.collection('todos');
       var additive = {
         'user': req.user,
-        'text': req.body.newTodo,
-        'finished': false
+        'text': req.body.newTodo
       }
       todos.insertOne(additive, function(err, result) {
         db.close();
@@ -81,6 +80,29 @@ app.post('/add', jsonParser, function(req, res) {
     }
   });
 });
+
+app.put('/remove', jsonParser, function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    if (!err) {
+      var todos = db.collection('todos');
+      var subtractive = {
+        'user': req.user,
+        'text': req.body.text
+      }
+      todos.deleteOne(subtractive, function(err, results) {
+        if (!err) {
+          res.json(results.result);
+        }
+        else {
+          res.sendStatus(500);
+        }
+      });
+    }
+    else {
+      res.sendStatus(500);
+    }
+  });
+})
 
 app.use(express.static('./public/'));
 

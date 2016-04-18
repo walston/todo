@@ -9,7 +9,6 @@ function home($http) {
     method: 'GET',
     url: '/user'
   }).then(function(response) {
-    console.log('Promised: ', response.data);
     vm.user = response.data
   });
   var vm = this;
@@ -43,6 +42,13 @@ function todo($http) {
     added.then(function() {
       getTodos();
     });
+  }
+
+  vm.remove = function(item) {
+    var removed = $http.put('/remove', item)
+    removed.then(function() {
+      getTodos();
+    })
   }
 
   vm.finished = function(item) {
