@@ -13,21 +13,14 @@
         <greeting></greeting>
       </div>
       <div ng-controller="todoController as todo">
-        <p class="form-inline">
-          <input ng-model="todo.item" class="form-control" type="text" placeholder="New task...">
-          <input ng-click="todo.add(todo.item)" class="btn btn-primary" type="button" name="Add" value="Add">
-        </p>
+        <add></add>
         <div class="panel panel-default">
           <div class="panel-heading">
-            <span ng-show="todo.list.length !== 0" class="h4">Items: {{todo.list.length}}</span>
-            <span ng-show="todo.list.length === 0" class="h4">Nothing to do</span>
+            <count></count>
           </div>
           <div class="panel-body">
             <ul class="list-unstyled">
-              <li ng-repeat="item in todo.list" ng-click="todo.remove(item)">
-                <input type="checkbox">
-                <span>{{ item.text }}</span>
-              </li>
+              <items></items>
             </ul>
           </div>
         </div>
@@ -35,5 +28,8 @@
     </div>
     <script src="script.js" charset="utf-8"></script>
     <script src="home/greeting.directive.js" charset="utf-8"></script>
+    <script src="todo/add.directive.js" charset="utf-8"></script>
+    <script src="todo/count.directive.js" charset="utf-8"></script>
+    <script src="todo/items.directive.js" charset="utf-8"></script>
   </body>
 </html>
