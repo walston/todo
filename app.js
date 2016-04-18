@@ -37,10 +37,10 @@ app.get('/todos', function(req, res) {
       var todos = db.collection('todos');
       todos.find({user: req.user}).toArray(function(err, docs) {
         db.close();
-        debugger;
         docs = docs.map(function(doc) {
           return {
-            text: doc.text
+            text: doc.text,
+            id: doc._id
           }
         })
         if (!err) {
@@ -90,6 +90,7 @@ app.put('/remove', jsonParser, function(req, res) {
         'text': req.body.text
       }
       todos.deleteOne(subtractive, function(err, results) {
+        db.close();
         if (!err) {
           res.json(results.result);
         }
@@ -106,7 +107,11 @@ app.put('/remove', jsonParser, function(req, res) {
 
 app.use(express.static('./public/'));
 
-var port = process.env.PORT || 8080;
-app.listen(port, function(req, res) {
-  console.log('Listening on: ' + port + '...');
-});
+if (!require.main.loaded) {
+  var port = process.env.PORT || 8080;
+  app.listen(port, function(req, res) {
+    console.log('Listening on: ' + port + '...');
+  });
+}
+
+module.exports = app;
