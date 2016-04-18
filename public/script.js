@@ -19,7 +19,7 @@ app.directive('greeting', greeting);
 
 function greeting() {
   return {
-    templateURL: 'home/greeting.directive.html'
+    templateUrl: 'home/greeting.directive.html'
   }
 }
 
