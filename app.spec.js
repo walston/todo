@@ -32,7 +32,6 @@ describe('Todos can', function() {
   });
 
   it('be deleted.', function(done) {
-    console.log(testCase);
     request({
       method: 'PUT',
       url: 'http://localhost:' + port + '/remove',

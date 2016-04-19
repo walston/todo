@@ -12,4 +12,7 @@ app.config(['$routeProvider', function($routeProvider) {
     controller: 'profileController',
     controllerAs: 'profile'
   })
+  .otherwise({
+    templateUrl: 'landing/landing.view.html'
+  })
 }])
