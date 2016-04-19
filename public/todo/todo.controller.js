@@ -19,9 +19,10 @@ function todo($http) {
     })
   }
 
-  vm.add = function(content) {
+  vm.add = function(todo) {
     var todo = {
-      newTodo: content
+      text: todo.text,
+      date: todo.date
     };
     var added = $http.post('/add', todo);
     added.then(function() {
