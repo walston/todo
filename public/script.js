@@ -8,7 +8,7 @@ app.config(['$routeProvider', function($routeProvider) {
     controllerAs: 'todo'
   })
   .when('/profile', {
-    templateUrl: 'profile.html',
+    templateUrl: 'profile/profile.view.html',
     controller: 'profileController',
     controllerAs: 'profile'
   })
