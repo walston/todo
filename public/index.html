@@ -5,26 +5,21 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-route.js" charset="utf-8"></script>
   </head>
   <body ng-app="todo">
     <br>
     <div class="container">
-      <div ng-controller="homeController as home">
-        <greeting></greeting>
-      </div>
-      <div ng-controller="todoController as todo">
-        <add></add>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <count></count>
-          </div>
-          <div class="panel-body">
-            <ul class="list-unstyled">
-              <items></items>
-            </ul>
-          </div>
-        </div>
-      </div>
+      <div ng-hide="start" class="jumbotron">
+        <h1>Ready to get things done?</h1>
+        <p>Using a To-Do<sup>®</sup> list<sup>™</sup> improves lives by 20%<sup>*</sup>.</p>
+        <p>
+          <a ng-click="start = !start" class="btn btn-primary" href="#/todo">
+            Start Now
+          </a>
+        </p>
+      </div><!-- /div.jumbotron -->
+      <div ng-hide="!start" ng-view></div>
     </div>
     <script src="script.js" charset="utf-8"></script>
     <script src="home/home.controller.js" charset="utf-8"></script>
