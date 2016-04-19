@@ -40,6 +40,7 @@ app.get('/todos', function(req, res) {
         db.close();
         docs = docs.map(function(doc) {
           return {
+            date: doc.date,
             text: doc.text,
             id: doc._id
           }
@@ -64,7 +65,8 @@ app.post('/add', jsonParser, function(req, res) {
       var todos = db.collection('todos');
       var additive = {
         'user': req.user,
-        'text': req.body.newTodo
+        'text': req.body.text,
+        'date': req.body.date
       }
       todos.insertOne(additive, function(err, result) {
         db.close();

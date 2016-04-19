@@ -1,4 +1,5 @@
-<p class="form-inline">
-  <input ng-model="todo.item" class="form-control" type="text" placeholder="New task...">
+<form class="form-inline">
+  <input ng-model="todo.item.text" class="form-control" type="text" placeholder="New task...">
+  <input ng-model="todo.item.date" class="form-control" type="date" name="date">
   <input ng-click="todo.add(todo.item)" class="btn btn-primary" type="button" name="Add" value="Add">
-</p>
+</form>

@@ -7,7 +7,23 @@ var RANDOMIZE = 0;
 var server = app.listen(RANDOMIZE);
 var port = server.address().port;
 
+var testCase = {
+  text: 'Testing Testing 123',
+}
+
 describe('Todos can', function() {
+  it('be added.', function(done) {
+    request({
+      method: 'POST',
+      url: 'http://localhost:' + port + '/add',
+      json: testCase
+    }, function(error, response) {
+      assert.equal(response.statusCode, 200);
+      testCase._id = response.body._id;
+      done();
+    });
+  });
+
   it('be returned.', function(done) {
     request('http://localhost:' + port + '/todos', function(error, response) {
       assert.equal(response.statusCode, 200);
@@ -15,22 +31,12 @@ describe('Todos can', function() {
     });
   });
 
-  it('be added.', function(done) {
-    request({
-      method: 'POST',
-      url: 'http://localhost:' + port + '/add',
-      json: { newTodo: '1c0uamb8;ahdgjpsyun3mvbi-a' }
-    }, function(error, response) {
-      assert.equal(response.statusCode, 200);
-      done();
-    });
-  });
-
   it('be deleted.', function(done) {
+    console.log(testCase);
     request({
       method: 'PUT',
       url: 'http://localhost:' + port + '/remove',
-      json: { text: '1c0uamb8;ahdgjpsyun3mvbi-a' }
+      json: testCase
     }, function(error, response) {
       assert.equal(response.statusCode, 200);
       assert.isAbove(response.body.n, 0);
