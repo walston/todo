@@ -19,7 +19,7 @@ describe('Todos can', function() {
     request({
       method: 'POST',
       url: 'http://localhost:' + port + '/add',
-      json: { newTodo: '1c0uamb8;ahdgjpsyun3mvbi-a' }
+      json: { text: '1c0uamb8;ahdgjpsyun3mvbi-a' }
     }, function(error, response) {
       assert.equal(response.statusCode, 200);
       done();
