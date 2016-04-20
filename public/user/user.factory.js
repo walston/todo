@@ -5,26 +5,17 @@ app.factory('userFactory', userFactory);
 userFactory.$inject = ['$http']
 
 function userFactory($http) {
-  var user;
-  return {
-    getUsername: getUsername,
-    getUserLocation: getUserLocation,
-    getUserPic: getUserPic
-  }
+  var service = {
+    getUser: getUser
+  };
+  return service;
 
-  $http.get('/user').then(function(response) {
-    user = response.data;
-  });
-
-  function getUsername() {
-    return user.name;
-  }
-
-  function getUserPic() {
-    return user.pic;
-  }
-
-  function getUserLocation() {
-    return user.location;
+  function getUser() {
+    return $http.get('/user').then(function(response) {
+      return response.data;
+    }, function(error) {
+      console.log(error.data);
+      return error.data;
+    });
   }
 }
