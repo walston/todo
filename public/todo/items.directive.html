@@ -1,5 +1,11 @@
-<li ng-repeat="item in todo.list" ng-click="todo.remove(item)">
-  <input type="checkbox">
-  <span>{{ item.text }}</span>
-  <span class="text-muted">{{ item.date | date:'shortDate' }}</span>
-</li>
+<tr ng-repeat="item in todo.list">
+  <td>
+    <input ng-click="todo.remove(item)" type="checkbox">
+  </td>
+  <td>
+    {{ item.text }}
+  </td>
+  <td>
+    <span class="text-muted">{{ item.date | date:'shortDate' }}</span>
+  </td>
+</tr>
