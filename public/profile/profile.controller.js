@@ -2,20 +2,11 @@ var app = angular.module('todo');
 
 app.controller('profileController', profile);
 
-app.$inject = ['$http'];
+profile.$inject = ['userFactory'];
 
-function profile($http) {
+function profile(userFactory) {
   var vm = this;
-  activate();
-
-  function activate() {
-    getUser();
-  }
-
-  function getUser() {
-    var userInfo = $http.get('/user');
-    userInfo.then(function(user) {
-      vm.user = user.data;
-    });
-  }
+  userFactory.getUser().then(function(user) {
+    vm.user = user;
+  });
 }
