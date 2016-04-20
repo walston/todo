@@ -6,6 +6,7 @@ app.$inject = ['$http'];
 
 function todo($http) {
   var vm = this;
+  var showDateInput = false;
   activate();
 
   function activate() {
