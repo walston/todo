@@ -1,14 +1,18 @@
-<div class="row" ng-controller="homeController as home">
-  <greeting></greeting>
-</div>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <count></count>
+      <div class="row">
+        <div class="col-sm-6 pull-right text-right">
+          <div ng-controller="homeController as home">
+            <greeting></greeting>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <count></count>
+        </div>
+      </div>
   </div>
   <div class="panel-body">
-    <ul class="list-unstyled">
-      <items></items>
-    </ul>
+    <items></items>
   </div>
   <div class="panel-footer">
     <add></add>
