@@ -1,11 +1,18 @@
-<tr ng-repeat="item in todo.list">
-  <td>
-    <input ng-click="todo.remove(item)" type="checkbox">
-  </td>
-  <td>
-    {{ item.text }}
-  </td>
-  <td>
-    <span class="text-muted">{{ item.date | date:'shortDate' }}</span>
-  </td>
-</tr>
+<table class="table table-condensed">
+  <tbody>
+    <tr ng-repeat="item in todo.list" class="list-group-item">
+      <td>
+        <i ng-click="item.finished = !item.finished;" ng-class="item.finished ? 'fa fa-check' : 'fa fa-square-o';"></i>
+      </td>
+      <td>
+        {{ item.text }}
+      </td>
+      <td>
+        <span class="text-muted">{{ thingy.date | date:'shortDate' }}</span>
+      </td>
+      <td>
+        <i class="fa fa-trash" ng-click="todo.remove(item)"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>
