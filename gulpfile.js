@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var mocha = require('gulp-mocha');
 var nodemon = require('gulp-nodemon');
+var casper = require('gulp-casperjs');
 
 gulp.task('default', function() {
   nodemon({ script: 'app.js '})
