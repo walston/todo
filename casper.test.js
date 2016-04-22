@@ -31,7 +31,7 @@ casper.test.begin('Interact with webpage', 5, function(test) {
     return !hasText;
   });
   casper.then(function() {
-    test.assertSelectorDoesntHaveText('table>tbody', testInputString, 'Testing input successfully removed');
+    test.assertSelectorDoesntHaveText('.panel-head', 'Items: 1', 'Testing input successfully removed');
   })
 
   casper.run(function() {
