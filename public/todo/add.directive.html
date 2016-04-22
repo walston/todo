@@ -1,5 +1,8 @@
-<form class="form-inline">
-  <input ng-model="todo.item.text" class="form-control" type="text" placeholder="New task...">
-  <input ng-model="todo.item.date" class="form-control" type="date" name="date">
-  <input ng-click="todo.add(todo.item)" class="btn btn-primary" type="button" name="Add" value="Add">
+<form class="form-inline" id="todoAdd">
+  <input ng-model="todo.item.text" class="form-control" type="text" id="text" name="text" placeholder="New task...">
+  <button ng-hide="showDateInput" ng-click="showDateInput = true" class="btn btn-default">
+    <i class="fa fa-calendar" aria-hidden="true"></i>
+  </button>
+  <input ng-model="todo.item.date" ng-show="showDateInput" class="form-control" type="date" id="date" name="date">
+  <input ng-click="todo.add(todo.item); showDateInput = false" class="btn btn-primary" type="button" id="add" name="Add" value="Add">
 </form>

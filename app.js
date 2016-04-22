@@ -84,12 +84,44 @@ app.post('/add', jsonParser, function(req, res) {
   });
 });
 
+app.put('/update', jsonParser, function(req, res) {
+  MongoClient.connect(url, function(err, db) {
+    if (!err) {
+      var todos = db.collection('todos');
+      var old = { '_id': ObjectID(req.params.id) };
+      var updated = {
+        'text': req.body.text,
+        'finished': req.body.finished
+      }
+      todos.updateOne(old,
+        {
+          $set:{
+            text: updated.text,
+            finished: updated.finished
+          }
+        }, null, function(err, results) {
+          db.close();
+          if (!err) {
+            res.sendStatus(results.result);
+          }
+          else {
+            res.sendStatus(500)
+          }
+        }
+      )
+    }
+    else {
+      res.sendStatus(500);
+    }
+  });
+});
+
 app.put('/remove', jsonParser, function(req, res) {
   MongoClient.connect(url, function(err, db) {
     if (!err) {
       var todos = db.collection('todos');
       var subtractive = {
-        'user': req.user,
+        'user': req.user
       }
       if (req.body.id) {
         subtractive._id = ObjectID(req.body.id);
