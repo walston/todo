@@ -1,10 +1,8 @@
 var express = require('express');
 var app = express();
-var mongo = require('mongodb');
-var MongoClient = mongo.MongoClient;
-var url = 'mongodb://localhost/todo';
+var pg = require('pg');
+var client = new pg.Client(process.env.DATABASE_URL);
 var jsonParser = require('body-parser').json();
-var ObjectID = mongo.ObjectID;
 
 app.use(function(req, res, next) {
   req.user = 'Nathan';
@@ -13,137 +11,42 @@ app.use(function(req, res, next) {
 });
 
 app.get('/user', function(req, res) {
-  MongoClient.connect(url, function(err, db) {
-    if (!err) {
-      var users = db.collection('users');
-      users.find({'name': req.user}).limit(1).toArray(function(err, docs) {
-        db.close();
-        if (!err) {
-          res.send(docs[0]);
-        }
-        else {
-          res.sendStatus(500);
-        }
-      });
-    }
-    else {
-      res.sendStatus(500);
-    }
-  });
+  // find user by name & return user data;
+  // res.json(USER: {});
 });
 
 app.get('/todos', function(req, res) {
-  MongoClient.connect(url, function(err, db) {
-    if (!err) {
-      var todos = db.collection('todos');
-      todos.find({user: req.user}).toArray(function(err, docs) {
-        db.close();
-        docs = docs.map(function(doc) {
-          return {
-            date: doc.date,
-            text: doc.text,
-            id: doc._id
-          }
-        })
-        if (!err) {
-          res.json(docs);
-        }
-        else {
-          res.sendStatus(500);
-        }
-      });
-    }
-    else {
-      res.sendStatus(500);
-    }
-  });
+  // find todos by userId & return them as
+  // as an array
+  // res.json([{
+  //   date: doc.date,
+  //   text: doc.text,
+  //   id: doc._id
+  // }]);
 });
 
 app.post('/add', jsonParser, function(req, res) {
-  MongoClient.connect(url, function(err, db) {
-    if (!err) {
-      var todos = db.collection('todos');
-      var additive = {
-        'user': req.user,
-        'text': req.body.text,
-        'date': req.body.date
-      }
-      todos.insertOne(additive, function(err, result) {
-        db.close();
-        if (!err) {
-          res.status(200).send(result.ops);
-        }
-        else {
-          res.status(500).send(err);
-        }
-      })
-    }
-    else {
-      res.status(500).send(err);
-    }
-  });
+  // db.insert({
+  //   'user': req.user,
+  //   'text': req.body.text,
+  //   'date': req.body.date
+  // });
 });
 
 app.put('/update', jsonParser, function(req, res) {
-  MongoClient.connect(url, function(err, db) {
-    if (!err) {
-      var todos = db.collection('todos');
-      var old = { '_id': ObjectID(req.params.id) };
-      var updated = {
-        'text': req.body.text,
-        'finished': req.body.finished
-      }
-      todos.updateOne(old,
-        {
-          $set:{
-            text: updated.text,
-            finished: updated.finished
-          }
-        }, null, function(err, results) {
-          db.close();
-          if (!err) {
-            res.sendStatus(results.result);
-          }
-          else {
-            res.sendStatus(500)
-          }
-        }
-      )
-    }
-    else {
-      res.sendStatus(500);
-    }
-  });
+  // db.update({
+  //   '_id': ObjectID(req.params.id)
+  // }, {
+  //   'text': req.body.text,
+  //   'finished': req.body.finished
+  // });
 });
 
-app.put('/remove', jsonParser, function(req, res) {
-  MongoClient.connect(url, function(err, db) {
-    if (!err) {
-      var todos = db.collection('todos');
-      var subtractive = {
-        'user': req.user
-      }
-      if (req.body.id) {
-        subtractive._id = ObjectID(req.body.id);
-      }
-      else {
-        subtractive.text = req.body.text;
-      }
-      todos.deleteOne(subtractive, function(err, results) {
-        db.close();
-        if (!err) {
-          res.json(results.result);
-        }
-        else {
-          res.sendStatus(500);
-        }
-      });
-    }
-    else {
-      res.sendStatus(500);
-    }
-  });
-})
+app.delete('/remove', jsonParser, function(req, res) {
+  // db.delete({
+  //   '_id': ObjectID(req.params.id)
+  // })
+});
 
 app.use(express.static('./public/'));
 
