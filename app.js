@@ -1,7 +1,8 @@
+require('dotenv').config();
 var express = require('express');
 var app = express();
 var pg = require('pg');
-var client = new pg.Client(process.env.DATABASE_URL);
+var DATABASE_URL = process.env.DATABASE_URL;
 var jsonParser = require('body-parser').json();
 
 app.use(function(req, res, next) {
