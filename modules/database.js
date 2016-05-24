@@ -1,5 +1,4 @@
 var dotenv = require('dotenv').config();
-console.log(process.env.DATABASE_URL);
 var pg = require('pg');
 var url = process.env.DATABASE_URL;
 
@@ -48,8 +47,20 @@ function userRead (username, callback) {
   });
 }
 
-function userUpdate () {
-
+function userUpdate (id, updates, callback) {
+  var query = 'UPDATE users SET ' +
+  'username=\'' + updates.username + '\' ' +
+  'realname=\'' + updates.realname + '\' ' +
+  'WHERE id=' + id + ';';
+  pg.connect(url, function(err, client, done) {
+    if (!err) {
+      client.query(query, function(err, result) {
+        done();
+        if (!err) callback(result);
+        else callback(new Error(err));
+      });
+    }
+  });
 }
 
 function userDelete () {
@@ -74,7 +85,7 @@ function itemCreate (item, callback) {
   });
 }
 
-function itemRead () {
+function itemRead (username, callback) {
   var query = 'SELECT * FROM "items" ' +
   'WHERE "username" = \'' + username + '\'';
   pg.connect(url, function(err, client, done) {
@@ -88,8 +99,22 @@ function itemRead () {
   });
 }
 
-function itemUpdate () {
-
+function itemUpdate (id, updates, callback) {
+  var query = 'UPDATE items SET ' +
+  'userid=\'' + updates.userid + '\' ' +
+  'text=\'' + updates.text + '\' ' +
+  'date=\'' + updates.date + '\' ' +
+  'done=\'' + updates.done + '\' ' +
+  'WHERE id=' + id + ';';
+  pg.connect(url, function(err, client, done) {
+    if (!err) {
+      client.query(query, function(err, result) {
+        done();
+        if (!err) callback(result);
+        else callback(new Error(err));
+      });
+    }
+  });
 }
 
 function itemDelete () {
