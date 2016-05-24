@@ -63,8 +63,18 @@ function userUpdate (id, updates, callback) {
   });
 }
 
-function userDelete () {
-
+function userDelete (id, callback) {
+  var query = 'DELETE FROM users WHERE ' +
+  'id=' + id + ';';
+  pg.connect(url, function(err, client, done) {
+    if (!err) {
+      client.query(query, function(err, results) {
+        done();
+        if (!err) callback(results);
+        else callback(new Error(err));
+      });
+    }
+  });
 }
 
 function itemCreate (item, callback) {
@@ -117,6 +127,16 @@ function itemUpdate (id, updates, callback) {
   });
 }
 
-function itemDelete () {
-
+function itemDelete (id, callback) {
+    var query = 'DELETE FROM users WHERE ' +
+    'id=' + id + ';';
+    pg.connect(url, function(err, client, done) {
+      if (!err) {
+        client.query(query, function(err, results) {
+          done();
+          if (!err) callback(results);
+          else callback(new Error(err));
+        });
+      }
+    });
 }
