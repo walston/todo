@@ -1,12 +1,11 @@
 require('dotenv').config();
 var express = require('express');
 var app = express();
-var pg = require('pg');
-var DATABASE_URL = process.env.DATABASE_URL;
 var jsonParser = require('body-parser').json();
+var db = require('./modules/database.js');
 
 app.use(function(req, res, next) {
-  req.user = 'Nathan';
+  req.user = 3; // this should be a session hash read from the cookies
   console.log(req.method + ':' + req.url);
   next();
 });
@@ -14,6 +13,9 @@ app.use(function(req, res, next) {
 app.get('/user', function(req, res) {
   // find user by name & return user data;
   // res.json(USER: {});
+  db.user.read(req.user, function(result) {
+    res.json(result);
+  })
 });
 
 app.get('/todos', function(req, res) {
@@ -24,6 +26,10 @@ app.get('/todos', function(req, res) {
   //   text: doc.text,
   //   id: doc._id
   // }]);
+  db.item.read(req.user, function(items) {
+    var payload = items;
+    res.json(payload);
+  });
 });
 
 app.post('/add', jsonParser, function(req, res) {
@@ -32,6 +38,14 @@ app.post('/add', jsonParser, function(req, res) {
   //   'text': req.body.text,
   //   'date': req.body.date
   // });
+  var item = {
+    text: req.body.text,
+    date: req.body.date,
+    done: req.body.done || false
+  }
+  db.item.create(req.user, item, function(result) {
+    res.json(result);
+  });
 });
 
 app.put('/update', jsonParser, function(req, res) {
@@ -41,12 +55,21 @@ app.put('/update', jsonParser, function(req, res) {
   //   'text': req.body.text,
   //   'finished': req.body.finished
   // });
+  var itemid = req.body.itemid;
+  var update = JSON.parse(req.body.update);
+  db.item.update(req.user, itemid, update, function(result) {
+    res.json(result);
+  });
 });
 
 app.delete('/remove', jsonParser, function(req, res) {
   // db.delete({
   //   '_id': ObjectID(req.params.id)
   // })
+  var itemid = req.body.itemid;
+  db.item.delete(req.user, itemid, function(result) {
+    res.json(result);
+  });
 });
 
 app.use(express.static('./public/'));

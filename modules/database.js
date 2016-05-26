@@ -33,14 +33,14 @@ function userCreate (user, callback) {
   });
 }
 
-function userRead (username, callback) {
+function userRead (id, callback) {
   var query = 'SELECT * FROM "users" ' +
-  'WHERE "username" = \'' + username + '\'';
+  'WHERE id = ' + id + ';';
   pg.connect(url, function(err, client, done) {
     if (!err) {
       client.query(query, function(err, result) {
         done();
-        if (!err) callback(result);
+        if (!err) callback(result.rows[0]);
         else callback(new Error(err));
       });
     }
@@ -77,13 +77,13 @@ function userDelete (id, callback) {
   });
 }
 
-function itemCreate (item, callback) {
-  var username = item.username;
+function itemCreate (userid, item, callback) {
+  var userid = userid;
   var text = item.text;
   var date = item.date || null;
   var done = item.done || false;
-  var query = 'INSERT INTO "users" ( "username", "text", "date", "done" ) ' +
-  'VALUES ( \'' + username + '\', \'' + text + '\', \'' + date + '\', \'' + done + '\' );'
+  var query = 'INSERT INTO "items" ( "userid", "text", "date", "done" ) ' +
+  'VALUES ( ' + userid + ', \'' + text + '\', ' + date + ', ' + done + ' );'
   pg.connect(url, function(err, client, done) {
     if (!err) {
       client.query(query, function(err, result) {
@@ -95,41 +95,43 @@ function itemCreate (item, callback) {
   });
 }
 
-function itemRead (username, callback) {
+function itemRead (userid, callback) {
   var query = 'SELECT * FROM "items" ' +
-  'WHERE "username" = \'' + username + '\'';
+  'WHERE "userid" = ' + userid + ';';
   pg.connect(url, function(err, client, done) {
     if (!err) {
       client.query(query, function(err, result) {
         done();
-        if (!err) callback(result);
+        if (!err) callback(result.rows);
         else callback(new Error(err));
       });
     }
   });
 }
 
-function itemUpdate (id, updates, callback) {
+function itemUpdate (userid, id, update, callback) {
+  // can you check if id belongs to userid?
+  // maybe an auth parameter?
   var query = 'UPDATE items SET ' +
-  'userid=\'' + updates.userid + '\' ' +
-  'text=\'' + updates.text + '\' ' +
-  'date=\'' + updates.date + '\' ' +
-  'done=\'' + updates.done + '\' ' +
-  'WHERE id=' + id + ';';
+  'text=\'' + update.text + '\', ' +
+  'date=' + update.date + ', ' +
+  'done=' + update.done + ' ' +
+  'WHERE id=' + id + ' AND userid=' + userid + ' ' +
+  'RETURNING * ;';
   pg.connect(url, function(err, client, done) {
     if (!err) {
       client.query(query, function(err, result) {
         done();
-        if (!err) callback(result);
+        if (!err) callback(result.rows[0]);
         else callback(new Error(err));
       });
     }
   });
 }
 
-function itemDelete (id, callback) {
-    var query = 'DELETE FROM users WHERE ' +
-    'id=' + id + ';';
+function itemDelete (userid, id, callback) {
+    var query = 'DELETE FROM items WHERE ' +
+    'id=' + id + 'AND userid=' + userid + ';';
     pg.connect(url, function(err, client, done) {
       if (!err) {
         client.query(query, function(err, results) {
