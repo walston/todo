@@ -111,8 +111,6 @@ function itemRead (userid, callback) {
 }
 
 function itemUpdate (userid, id, update, callback) {
-  // can you check if id belongs to userid?
-  // maybe an auth parameter?
   var query = 'UPDATE items SET ' +
   'text=\'' + update.text + '\', ' +
   'date=' + update.date + ', ' +
