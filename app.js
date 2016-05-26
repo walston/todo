@@ -38,11 +38,7 @@ app.post('/add', jsonParser, function(req, res) {
   //   'text': req.body.text,
   //   'date': req.body.date
   // });
-  var item = {
-    text: req.body.text,
-    date: req.body.date,
-    done: req.body.done || false
-  }
+  var item = req.body.item;
   db.item.create(req.user, item, function(result) {
     res.json(result);
   });
@@ -56,7 +52,7 @@ app.put('/update', jsonParser, function(req, res) {
   //   'finished': req.body.finished
   // });
   var itemid = req.body.itemid;
-  var update = JSON.parse(req.body.update);
+  var update = req.body.item;
   db.item.update(req.user, itemid, update, function(result) {
     res.json(result);
   });

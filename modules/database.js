@@ -83,12 +83,13 @@ function itemCreate (userid, item, callback) {
   var date = item.date || null;
   var done = item.done || false;
   var query = 'INSERT INTO "items" ( "userid", "text", "date", "done" ) ' +
-  'VALUES ( ' + userid + ', \'' + text + '\', ' + date + ', ' + done + ' );'
+  'VALUES ( ' + userid + ', \'' + text + '\', ' + date + ', ' + done + ' ) ' +
+  'RETURNING * ;'
   pg.connect(url, function(err, client, done) {
     if (!err) {
       client.query(query, function(err, result) {
         done();
-        if (!err) callback(result);
+        if (!err) callback(result.rows);
         else callback(new Error(err));
       });
     }
@@ -130,15 +131,15 @@ function itemUpdate (userid, id, update, callback) {
 }
 
 function itemDelete (userid, id, callback) {
-    var query = 'DELETE FROM items WHERE ' +
-    'id=' + id + 'AND userid=' + userid + ';';
-    pg.connect(url, function(err, client, done) {
-      if (!err) {
-        client.query(query, function(err, results) {
-          done();
-          if (!err) callback(results);
-          else callback(new Error(err));
-        });
-      }
-    });
+  var query = 'DELETE FROM items WHERE ' +
+  'id=' + id + 'AND userid=' + userid + ';';
+  pg.connect(url, function(err, client, done) {
+    if (!err) {
+      client.query(query, function(err, results) {
+        done();
+        if (!err) callback(results);
+        else callback(new Error(err));
+      });
+    }
+  });
 }
