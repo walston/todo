@@ -36,9 +36,19 @@ function todo($http) {
 
   vm.remove = function(todo) {
     var payload = {
-      item: todo
+      item: {
+        id: todo.id,
+        text: todo.text,
+        date: todo.date,
+        done: todo.done
+      }
     }
-    var removed = $http.delete('/remove', payload)
+    var removed = $http({
+      method: 'DELETE',
+      url: '/remove',
+      headers: {'Content-Type' : 'application/json'},
+      data: payload
+    });
     removed.then(function() {
       getTodos();
     })
