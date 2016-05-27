@@ -1,5 +1,5 @@
 language: node_js
-services: mongodb
+services: postgresql
 install:
   - npm install
 before_script:
@@ -8,3 +8,4 @@ before_script:
   - npm install -g casperjs
   - npm install -g phantomjs
 script: gulp test
+t

@@ -121,7 +121,7 @@ function itemUpdate (userid, id, update, callback) {
     if (!err) {
       client.query(query, function(err, result) {
         done();
-        if (!err) callback(result.rows[0]);
+        if (!err) callback(result.rows);
         else callback(new Error(err));
       });
     }
