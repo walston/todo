@@ -31,7 +31,7 @@ app.post('/add', jsonParser, function(req, res) {
 });
 
 app.put('/update', jsonParser, function(req, res) {
-  var itemid = req.body.itemid;
+  var itemid = req.body.item.id;
   var update = req.body.item;
   db.item.update(req.user, itemid, update, function(result) {
     res.json(result);
@@ -39,7 +39,7 @@ app.put('/update', jsonParser, function(req, res) {
 });
 
 app.delete('/remove', jsonParser, function(req, res) {
-  var itemid = req.body.itemid;
+  var itemid = req.body.item.id;
   db.item.delete(req.user, itemid, function(result) {
     res.json(result);
   });
