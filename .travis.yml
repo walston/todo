@@ -3,6 +3,7 @@ services: postgresql
 install:
   - npm install
 before_script:
+  - psql -c 'CREATE DATABASE travis;' -U postgres
   - npm install -g gulp
   - npm install -g mocha
   - npm install -g casperjs
