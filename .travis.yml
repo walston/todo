@@ -1,10 +1,12 @@
 language: node_js
-services: mongodb
+services: postgresql
 install:
   - npm install
 before_script:
+  - psql -c 'CREATE DATABASE travis;' -U postgres
   - npm install -g gulp
   - npm install -g mocha
   - npm install -g casperjs
   - npm install -g phantomjs
+  - node models/initialize.js
 script: gulp test

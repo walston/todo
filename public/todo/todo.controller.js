@@ -21,18 +21,34 @@ function todo($http) {
   }
 
   vm.add = function(todo) {
-    var todo = {
-      text: todo.text,
-      date: todo.date
+    var payload = {
+      item: {
+        text: todo.text,
+        date: todo.date,
+        done: false
+      }
     };
-    var added = $http.post('/add', todo);
+    var added = $http.post('/add', payload);
     added.then(function() {
       getTodos();
     });
   }
 
-  vm.remove = function(item) {
-    var removed = $http.put('/remove', item)
+  vm.remove = function(todo) {
+    var payload = {
+      item: {
+        id: todo.id,
+        text: todo.text,
+        date: todo.date,
+        done: todo.done
+      }
+    }
+    var removed = $http({
+      method: 'DELETE',
+      url: '/remove',
+      headers: {'Content-Type' : 'application/json'},
+      data: payload
+    });
     removed.then(function() {
       getTodos();
     })

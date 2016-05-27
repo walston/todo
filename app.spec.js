@@ -8,7 +8,10 @@ var server = app.listen(RANDOMIZE);
 var port = server.address().port;
 
 var testCase = {
-  text: 'Testing Testing 123',
+  item: {
+    text: 'Testing Testing 123',
+    done: false
+  }
 }
 
 describe('Todos can', function() {
@@ -18,27 +21,54 @@ describe('Todos can', function() {
       url: 'http://localhost:' + port + '/add',
       json: testCase
     }, function(error, response) {
+      if (typeof response == 'string') {
+        response = JSON.parse(response);
+      }
       assert.equal(response.statusCode, 200);
-      testCase._id = response.body._id;
+      assert.equal(response.body[0].text, testCase.item.text);
+      testCase.item = response.body[0];
       done();
     });
   });
 
   it('be returned.', function(done) {
     request('http://localhost:' + port + '/todos', function(error, response) {
+      if (typeof response == 'string') {
+        response = JSON.parse(response);
+      }
       assert.equal(response.statusCode, 200);
+      done();
+    });
+  });
+
+  it('be updated.', function(done) {
+    var finishedTodo = testCase;
+    finishedTodo.item.done = true;
+    request({
+      method: 'PUT',
+      url: 'http://localhost:' + port + '/update',
+      json: finishedTodo
+    }, function(error, response) {
+      if (typeof response == 'string') {
+        response = JSON.parse(response);
+      }
+      assert.equal(response.statusCode, 200);
+      assert.equal(response.body[0].text, testCase.item.text);
+      assert.equal(response.body[0].done, true);
       done();
     });
   });
 
   it('be deleted.', function(done) {
     request({
-      method: 'PUT',
+      method: 'DELETE',
       url: 'http://localhost:' + port + '/remove',
       json: testCase
     }, function(error, response) {
+      if (typeof response == 'string') {
+        response = JSON.parse(response);
+      }
       assert.equal(response.statusCode, 200);
-      assert.isAbove(response.body.n, 0);
       done();
     });
   });
